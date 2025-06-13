@@ -1,3 +1,47 @@
+# LPL Super Pony Up (First thing that came to my mind)
+
+This application displays a list of comments from a JSON API. Below is a technical overview of the implementation.
+
+![App Screenshot](Images/img.png)
+
+## Technical Implementation
+
+### Architecture
+- **Pattern**: MVVM (Model-View-ViewModel) architecture
+- **UI**: Built with Jetpack Compose
+- **State Management**: Kotlin Flow for reactive state updates
+- **Dependency Injection**: Hilt for dependency injection
+- **Build Variants**: Supports 'mock' and 'prod' flavors for development and production environments
+
+### Network
+- **API Client**: Retrofit for network requests
+- **Endpoint**: https://jsonplaceholder.typicode.com/posts/1/comments
+- **Data Classes**: Model separation between DTOs (Data Transfer Objects) and Domain models
+
+### Testing
+- **UI Tests**: Compose UI testing with ComposeTestRule
+  - Tests for loading, success, error, and initial states
+  - Component rendering verification
+- **Unit Tests**: Repository implementation tests with mock data
+- **Mock Data**: JSON mock data for offline testing
+
+### Future Enhancements
+- Room database implementation for offline caching
+- Splash screen
+- Custom app icon
+- Specific error messages based on HTTP codes
+- Enhanced accessibility features
+- Extended test coverage
+- Additional user comments features
+- Further testing
+- Bigger screens implementation
+- Extended error handling
+
+## Demo Images
+
+
+Original request:
+
 Implement Java and MVVM architecture-based project to achieve below features.
 Use all jetpack components that you can use here.
 
@@ -15,13 +59,7 @@ Use all jetpack components that you can use here.
 8. When completed, please upload to GIT HUB and be prepared to not only walk through the code but
    demo the project.
 
-Outstanding items:
-Sadly, I'm sleepy and I was told to get the code done the same day it was given to me
-so here are some of the features I would had introduce if given more time in no specific order:
-Room, splash screen, icon, specific error messages depending on http codes or exceptions, ADA,
-extend testing,comments.
-
-Will update with another commit, I hope to make it in time, if not, well, it is what it is.
+Not so professional photos of my pets:
 
 Here is a photo of my dog:  
 <img src="Images/photo_2025-06-04_22-45-47.jpg" width="300"/>

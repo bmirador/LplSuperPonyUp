@@ -36,6 +36,8 @@ This application displays a list of comments from a JSON API. Below is a technic
 - Bigger screens implementation
 - Extended error handling
 
+I had a busy day yesterday, I stayed up completing this as the commit times will reflect. I am willing to add more elements to the app I just need more time. Thank your for understanding.
+
 ## Demo Images
 
 Original request:

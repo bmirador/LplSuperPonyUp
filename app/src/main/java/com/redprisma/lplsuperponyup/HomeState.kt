@@ -1,0 +1,30 @@
+package com.redprisma.lplsuperponyup
+
+import com.redprisma.lplsuperponyup.data.local.models.Comment
+
+/**
+ * A sealed hierarchy describing the state of the comment list screen.
+ */
+sealed interface HomeState {
+
+    /**
+     * Empty state when the screen is first shown, useless
+     * since we load immediately but is useful as an initial standard state
+     */
+    object Initial : HomeState
+
+    /**
+     * Still loading
+     */
+    object Loading : HomeState
+
+    /**
+     * Success on requesting list of comments.
+     */
+    data class Success(val comments: List<Comment?>) : HomeState
+
+    /**
+     * There was an error while retrieving comments.
+     */
+    data class Error(val errorMessage: String) : HomeState
+}

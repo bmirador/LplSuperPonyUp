@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LplSuperPonyUp</string>
+    <string name="you_got_us_error">You got us: %1$s</string>
+    <string name="if_you_are_reading_this_something_somewhere_went_really_wrong">If you are reading this something, somewhere, went really wrong</string>
+    <string name="loadingindicator_testing">loadingIndicator</string>
+    <string name="user_icon">User Icon</string>
+    <string name="id">id: %1$s</string>
+    <string name="retry">Retry?</string>
+</resources>

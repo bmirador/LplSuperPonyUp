@@ -1,6 +1,7 @@
 package com.redprisma.lplsuperponyup
 
-import com.redprisma.lplsuperponyup.data.local.models.Comment
+import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.util.AppError
 
 /**
  * A sealed hierarchy describing the state of the comment list screen.
@@ -21,10 +22,10 @@ sealed interface HomeState {
     /**
      * Success on requesting list of comments.
      */
-    data class Success(val comments: List<Comment?>) : HomeState
+    data class Success(val comments: List<Comment?>, val fromCache: Boolean) : HomeState
 
     /**
      * There was an error while retrieving comments.
      */
-    data class Error(val errorMessage: String) : HomeState
+    data class Error(val appError: AppError) : HomeState
 }

@@ -1,10 +1,9 @@
 package com.redprisma.lplsuperponyup
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.redprisma.lplsuperponyup.data.local.models.Comment
 import com.redprisma.lplsuperponyup.data.repository.CommentsRepository
+import com.redprisma.lplsuperponyup.data.util.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,14 +28,18 @@ class CommentsViewModel @Inject constructor(
             _homeState.value = HomeState.Loading // Show loading state
             commentsRepository.fetchComments()
                 .collect { result ->
-                    result
-                        .onSuccess { comments ->
-                            _homeState.value = HomeState.Success(comments) // Show data on success
+                    when (result) {
+                        is DataResult.Error -> {
+                            _homeState.value = HomeState.Error(appError = result.appError)
                         }
-                        .onFailure { exception ->
-                            _homeState.value = HomeState.Error(exception.message ?: "Unknown error") // Show error message
-                            Log.e("CommentsViewModel", "Failed to load comments", exception)
+
+                        is DataResult.Success -> {
+                            _homeState.value = HomeState.Success(
+                                comments = result.data,
+                                fromCache = result.fromCache
+                            )
                         }
+                    }
                 }
         }
     }

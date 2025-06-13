@@ -42,7 +42,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.redprisma.lplsuperponyup.HomeState
 import com.redprisma.lplsuperponyup.R
-import com.redprisma.lplsuperponyup.data.local.models.Comment
+import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.util.AppError
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -73,20 +74,31 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
 
         is HomeState.Success ->
             // Display list of comments when data is successfully loaded
-            Column(Modifier.fillMaxSize()) {
-                LazyColumn {
-                    items(
-                        items = homeState.comments,
-                        key = { it?.id ?: Uuid.random() }) { comment ->
-                        comment?.run {
-                            // Display individual comment item
-                            RequestedCommentItem(
-                                postId = postId,
-                                id = id,
-                                name = name,
-                                email = email,
-                                body = body
-                            )
+            Column(
+                Modifier.fillMaxSize(),
+                verticalArrangement = Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (homeState.comments.isEmpty()) {
+                    Text("No comments were found")
+                } else {
+                    if (homeState.fromCache) {
+                        Text("Showing results from cache, there was a problem retrieving the latest comments")
+                    }
+                    LazyColumn {
+                        items(
+                            items = homeState.comments,
+                            key = { it?.id ?: Uuid.random() }) { comment ->
+                            comment?.run {
+                                // Display individual comment item
+                                RequestedCommentItem(
+                                    postId = postId,
+                                    id = id,
+                                    name = name,
+                                    email = email,
+                                    body = body
+                                )
+                            }
                         }
                     }
                 }
@@ -94,7 +106,7 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
 
         is HomeState.Error ->
             // Display error screen with retry option
-            ErrorScreen(homeState.errorMessage, loadComments)
+            ErrorScreen(homeState.appError, loadComments)
     }
 }
 
@@ -177,9 +189,7 @@ fun RequestedCommentItem(
 }
 
 
-
-
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CommentLoadingPreview() {
     CommentListScreen(
@@ -187,7 +197,7 @@ private fun CommentLoadingPreview() {
     ) { }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CommentSuccessPreview() {
     CommentListScreen(
@@ -213,15 +223,23 @@ private fun CommentSuccessPreview() {
                             "voluptatem error expedita pariatur\n" +
                             "nihil sint nostrum voluptatem reiciendis et"
                 )
-            )
+            ), fromCache = false
         )
     ) {}
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun CommentErrorPreview() {
+private fun CommentErrorNetworkPreview() {
     CommentListScreen(
-        HomeState.Error("Something is wrong!!")
+        HomeState.Error(AppError.Network)
+    ) {}
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CommentErrorServerPreview() {
+    CommentListScreen(
+        HomeState.Error(AppError.Server)
     ) {}
 }

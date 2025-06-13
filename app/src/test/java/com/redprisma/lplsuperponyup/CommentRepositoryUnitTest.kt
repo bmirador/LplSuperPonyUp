@@ -1,69 +1,80 @@
 package com.redprisma.lplsuperponyup
 
+import app.cash.turbine.test
+import com.redprisma.lplsuperponyup.data.local.db.CommentDao
+import com.redprisma.lplsuperponyup.data.models.Comment
 import com.redprisma.lplsuperponyup.data.remote.CommentsService
 import com.redprisma.lplsuperponyup.data.remote.models.CommentDto
-import com.redprisma.lplsuperponyup.data.remote.models.toDomain
+import com.redprisma.lplsuperponyup.data.remote.models.toEntity
 import com.redprisma.lplsuperponyup.data.repository.CommentsRepositoryImpl
+import com.redprisma.lplsuperponyup.data.util.AppError
+import com.redprisma.lplsuperponyup.data.util.DataResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.`when`
-import org.mockito.kotlin.mock
+import org.mockito.kotlin.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CommentsRepositoryImplTest {
 
-    private lateinit var service: CommentsService
+    private val api: CommentsService = mock()
+    private val dao: CommentDao = mock()
     private lateinit var repository: CommentsRepositoryImpl
+
+    private val fakeDto = CommentDto(1, 1, "John Doe", "john@example.com", "Hello world")
+    private val fakeEntity = fakeDto.toEntity()
+    private val fakeDomain = Comment(1, 1, "John Doe", "john@example.com", "Hello world")
 
     @Before
     fun setup() {
-        service = mock()
-        repository = CommentsRepositoryImpl(service)
+        repository = CommentsRepositoryImpl(api, dao)
     }
 
     @Test
-    fun `fetchComments returns success when API returns data`() = runTest {
-        val dto = CommentDto(1, 1, "name", "email", "body")
-        `when`(service.getComments()).thenReturn(listOf(dto))
+    fun `fetchComments - network success, data returned`() = runTest {
+        whenever(api.getComments()).thenReturn(listOf(fakeDto))
+        whenever(dao.getAllCommentsByPostId(1)).thenReturn(flowOf(listOf(fakeEntity)))
 
-        val result = repository.fetchComments().first()
-
-        assertTrue(result.isSuccess)
-        assertEquals(listOf(dto.toDomain()), result.getOrNull())
+        repository.fetchComments().test {
+            val result = awaitItem()
+            assert(result is DataResult.Success)
+            val success = result as DataResult.Success
+            assert(success.data == listOf(fakeDomain))
+            assert(!success.fromCache)
+            assert(success.error == null)
+            awaitComplete()
+        }
     }
 
     @Test
-    fun `fetchComments returns failure when API returns null`() = runTest {
-        `when`(service.getComments()).thenReturn(null)
+    fun `fetchComments - network fails, fallback to empty cache`() = runTest {
+        whenever(api.getComments()).thenThrow(RuntimeException("No internet"))
+        whenever(dao.getAllCommentsByPostId(1)).thenReturn(flowOf(emptyList()))
 
-        val result = repository.fetchComments().first()
-
-        assertTrue(result.isFailure)
-        assertEquals("The list is empty!", result.exceptionOrNull()?.message)
+        repository.fetchComments().test {
+            val result = awaitItem()
+            assert(result is DataResult.Error)
+            val error = result as DataResult.Error
+            assert(error.appError is AppError.Network || error.appError is AppError.Unknown)
+            awaitComplete()
+        }
     }
 
     @Test
-    fun `fetchComments returns failure when API returns empty list`() = runTest {
-        `when`(service.getComments()).thenReturn(emptyList())
+    fun `fetchComments - network fails, fallback to non-empty cache`() = runTest {
+        whenever(api.getComments()).thenThrow(RuntimeException("No internet"))
+        whenever(dao.getAllCommentsByPostId(1)).thenReturn(flowOf(listOf(fakeEntity)))
 
-        val result = repository.fetchComments().first()
-
-        assertTrue(result.isFailure)
-        assertEquals("The list is empty!", result.exceptionOrNull()?.message)
-    }
-
-    @Test
-    fun `fetchComments returns failure when API throws exception`() = runTest {
-        `when`(service.getComments()).thenThrow(RuntimeException("Network error"))
-
-        val result = repository.fetchComments().first()
-
-        assertTrue(result.isFailure)
-        assertEquals("Network error", result.exceptionOrNull()?.message)
+        repository.fetchComments().test {
+            val result = awaitItem()
+            assert(result is DataResult.Success)
+            val success = result as DataResult.Success
+            assert(success.data == listOf(fakeDomain))
+            assert(success.fromCache)
+            assert(success.error is AppError)
+            awaitComplete()
+        }
     }
 }

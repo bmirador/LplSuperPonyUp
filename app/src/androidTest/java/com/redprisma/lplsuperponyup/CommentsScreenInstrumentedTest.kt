@@ -1,78 +1,87 @@
-// CommentListScreenTest.kt
-package com.redprisma.lplsuperponyup
+package com.redprisma.lplsuperponyup.ui.screens
 
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import com.redprisma.lplsuperponyup.data.local.models.Comment
-import com.redprisma.lplsuperponyup.ui.screens.CommentListScreen
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.redprisma.lplsuperponyup.HomeState
+import com.redprisma.lplsuperponyup.data.models.Comment
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
-
+@RunWith(AndroidJUnit4::class)
 class CommentListScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun displaysInitialStateMessage() {
-        composeTestRule.setContent {
-            CommentListScreen(homeState = HomeState.Initial, loadComments = {})
-        }
-
-        composeTestRule
-            .onNodeWithText("If you are reading this something, somewhere, went really wrong")
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun showsLoadingIndicator() {
+    fun loadingState_showsLoadingIndicator() {
         composeTestRule.setContent {
             CommentListScreen(homeState = HomeState.Loading, loadComments = {})
         }
 
         composeTestRule
-            .onNode(hasTestTag("loadingIndicator")).assertIsDisplayed()
+            .onNodeWithTag("loadingIndicator")
             .assertIsDisplayed()
     }
 
     @Test
-    fun displaysCommentsInSuccessState() {
+    fun successState_showsListOfComments() {
         val comments = listOf(
-            Comment(1, 1, "John Doe", "john@example.com", "This is a comment."),
-            Comment(1, 2, "Jane Smith", "jane@example.com", "Another comment.")
+            Comment(1, 1, "John", "john@example.com", "Hello"),
+            Comment(1, 2, "Jane", "jane@example.com", "Hi there")
         )
 
         composeTestRule.setContent {
-            CommentListScreen(homeState = HomeState.Success(comments), loadComments = {})
+            CommentListScreen(
+                homeState = HomeState.Success(comments, fromCache = false),
+                loadComments = {}
+            )
         }
 
-        // Check both names are shown
-        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Jane Smith").assertIsDisplayed()
+        composeTestRule
+            .onAllNodesWithText("Hello")
+            .assertCountEquals(1)
 
-        // Check emails
-        composeTestRule.onNodeWithText("john@example.com").assertIsDisplayed()
-        composeTestRule.onNodeWithText("jane@example.com").assertIsDisplayed()
-
-        // Check IDs
-        composeTestRule.onNodeWithText("id: 1").assertIsDisplayed()
-        composeTestRule.onNodeWithText("id: 2").assertIsDisplayed()
+        composeTestRule
+            .onAllNodesWithText("Hi there")
+            .assertCountEquals(1)
     }
 
     @Test
-    fun displaysErrorMessage() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val errorMsg = "Something is wrong!!"
-
+    fun emptySuccessState_showsEmptyMessage() {
         composeTestRule.setContent {
-            CommentListScreen(homeState = HomeState.Error(errorMsg), loadComments = {})
+            CommentListScreen(
+                homeState = HomeState.Success(emptyList(), fromCache = false),
+                loadComments = {}
+            )
         }
 
-        composeTestRule.onNodeWithText(context.getString(R.string.you_got_us_error, errorMsg))
+        composeTestRule
+            .onNodeWithText("No comments were found")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun successFromCache_showsWarningBanner() {
+        val comments = listOf(
+            Comment(1, 1, "John", "john@example.com", "Hello")
+        )
+
+        composeTestRule.setContent {
+            CommentListScreen(
+                homeState = HomeState.Success(comments, fromCache = true),
+                loadComments = {}
+            )
+        }
+
+        composeTestRule
+            .onNodeWithText("Showing results from cache, there was a problem retrieving the latest comments")
             .assertIsDisplayed()
     }
 }

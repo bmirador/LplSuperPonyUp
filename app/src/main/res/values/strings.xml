@@ -6,4 +6,10 @@
     <string name="user_icon">User Icon</string>
     <string name="id">id: %1$s</string>
     <string name="retry">Retry?</string>
+    <string name="there_is_a_network_error_we_are_sorry">There is a network error, we are sorry</string>
+    <string name="the_comments_that_you_are_looking_for_are_not_here">The comments that you are looking for are not here</string>
+    <string name="generic_server_error_message">Generic server error message!</string>
+    <string name="its_taking_too_much_time_to_load">Its taking too much time to load!</string>
+    <string name="you_are_not_authorized_to_access_this_resource">You are not authorized to access this resource</string>
+    <string name="we_really_don_t_know_what_is_going_on_here_is_a_generic_message">We really don\'t know what is going on, here is a generic message!</string>
 </resources>

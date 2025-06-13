@@ -1,32 +1,56 @@
 package com.redprisma.lplsuperponyup.data.repository
 
-import com.redprisma.lplsuperponyup.data.local.models.Comment
+import com.redprisma.lplsuperponyup.data.local.db.CommentDao
+import com.redprisma.lplsuperponyup.data.local.db.models.toDomain
+import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.util.DataResult
 import com.redprisma.lplsuperponyup.data.remote.CommentsService
-import com.redprisma.lplsuperponyup.data.remote.models.toDomain
+import com.redprisma.lplsuperponyup.data.remote.models.toEntity
+import com.redprisma.lplsuperponyup.data.util.AppError
+import com.redprisma.lplsuperponyup.data.util.toAppError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-// Implementation of the CommentsRepository interface
-class CommentsRepositoryImpl @Inject constructor(private val api: CommentsService) :
-    CommentsRepository {
+class CommentsRepositoryImpl @Inject constructor(
+    private val api: CommentsService,
+    private val commentDao: CommentDao
+) : CommentsRepository {
 
-    // Fetches comments from the remote API and emits them as a Flow<Result>
-    override fun fetchComments(): Flow<Result<List<Comment?>>> =
-        flow {
-            // Fetch and convert remote data to domain model
-            val data = api.getComments()?.map { it?.toDomain() }
+    override fun fetchComments(): Flow<DataResult<List<Comment>>> = flow {
+        var loadedFromCache = false
+        var networkException: Exception? = null
 
-            // Emit failure if data is empty or null
-            if (data.isNullOrEmpty()) {
-                emit(Result.failure(Exception("The list is empty!")))
-            } else {
-                // Emit success with data
-                emit(Result.success(data))
-            }
-        }.catch { e ->
-            // Catch any exceptions and emit as failure
-            emit(Result.failure(e))
+        try {
+            val remoteData = api.getComments().mapNotNull { it?.toEntity() }
+            commentDao.insertComments(remoteData)
+        } catch (e: Exception) {
+            loadedFromCache = true
+            networkException = e
         }
+
+        val data = commentDao.getAllCommentsByPostId(1)
+            .map { entities -> entities.map { it.toDomain() } }
+
+        emitAll(
+            data.map { comments ->
+                if (comments.isEmpty() && loadedFromCache) {
+                    DataResult.Error(
+                        networkException?.toAppError() ?: AppError.Unknown(null)
+                    )
+                } else {
+                    DataResult.Success(
+                        data = comments,
+                        error = networkException?.toAppError(),
+                        fromCache = loadedFromCache
+                    )
+                }
+            }
+        )
+    }.catch { e ->
+        emit(DataResult.Error(e.toAppError()))
+    }
 }

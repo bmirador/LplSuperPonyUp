@@ -25,7 +25,7 @@ This application displays a list of comments from a JSON API. Below is a technic
 
 ### Future Enhancements
 - Room database implementation for offline caching
-- Update all the dependencies to the latest versions
+- Update all the dependencies to the latest versions (currently the only warnings)
 - Splash screen
 - Custom app icon
 - Specific error messages based on HTTP codes

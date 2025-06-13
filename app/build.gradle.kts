@@ -4,9 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     alias(libs.plugins.dagger.hilt)
-    alias(libs.plugins.generator)
 //    alias(libs.plugins.ksp)
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -77,12 +77,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.core.splashscreen)
     implementation(libs.navigation.compose)
-    implementation(libs.protolite.well.known.types)
     implementation(libs.fragment.ktx)
     implementation(libs.activity.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.security.crypto)
-    implementation(libs.launchdarkly.android.client.sdk)
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.constraintlayout.compose)
@@ -113,6 +110,11 @@ dependencies {
 
     implementation(libs.coil.compose)
 
+    implementation(libs.androidx.room.runtime)
+
+    ksp(libs.androidx.room.compiler)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
 
 hilt {

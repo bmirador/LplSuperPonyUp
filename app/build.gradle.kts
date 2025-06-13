@@ -110,6 +110,9 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.jetbrains.kotlinx.coroutines.test)
     testImplementation(libs.junit)
+
+    implementation(libs.coil.compose)
+
 }
 
 hilt {

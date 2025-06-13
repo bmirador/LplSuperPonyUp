@@ -1,7 +1,12 @@
 package com.redprisma.lplsuperponyup.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.Center
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.CircularProgressIndicator
@@ -20,13 +26,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.redprisma.lplsuperponyup.HomeState
 import com.redprisma.lplsuperponyup.R
 import com.redprisma.lplsuperponyup.data.local.models.Comment
@@ -95,18 +108,47 @@ fun RequestedCommentItem(
     email: String,
     body: String
 ) {
+    var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            imageUri = uri
+        }
+    }
+
     Row(
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        Icon(
-            imageVector = Icons.Default.AccountCircle,
-            contentDescription = stringResource(R.string.user_icon),
+        Box(
             modifier = Modifier
                 .size(48.dp)
                 .align(Alignment.Top)
-        )
+                .clip(CircleShape)
+                .clickable { imagePickerLauncher.launch("image/*") }
+        ) {
+            if (imageUri != null) {
+                AsyncImage(
+                    model = imageUri,
+                    contentDescription = stringResource(R.string.user_icon),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = stringResource(R.string.user_icon),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.width(12.dp))
 
@@ -133,6 +175,8 @@ fun RequestedCommentItem(
         }
     }
 }
+
+
 
 
 @Preview

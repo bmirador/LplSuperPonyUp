@@ -2,8 +2,6 @@
 
 This application displays a list of comments from a JSON API. Below is a technical overview of the implementation.
 
-![App Screenshot](Images/img.png)
-
 ## Technical Implementation
 
 ### Architecture
@@ -27,6 +25,7 @@ This application displays a list of comments from a JSON API. Below is a technic
 
 ### Future Enhancements
 - Room database implementation for offline caching
+- Update all the dependencies to the latest versions
 - Splash screen
 - Custom app icon
 - Specific error messages based on HTTP codes
@@ -38,7 +37,6 @@ This application displays a list of comments from a JSON API. Below is a technic
 - Extended error handling
 
 ## Demo Images
-
 
 Original request:
 

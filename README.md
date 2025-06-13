@@ -1,20 +1,34 @@
-# LPL Super Pony Up (First thing that came to my mind)
+# LPL Super Pony Up
 
-This application displays a list of comments from a JSON API. Below is a technical overview of the implementation.
+An Android application that displays a list of comments from a JSON API with profile image customization functionality.
+
+## Project Overview
+
+This Android application demonstrates modern Android development practices through a simple interface that displays comments from a JSON API. Users can customize profile images by tapping on the profile placeholder icons to select images from their device's photo gallery.
 
 ## Technical Implementation
 
 ### Architecture
 - **Pattern**: MVVM (Model-View-ViewModel) architecture
-- **UI**: Built with Jetpack Compose
+- **UI Framework**: Built with Jetpack Compose for a modern, declarative UI
 - **State Management**: Kotlin Flow for reactive state updates
-- **Dependency Injection**: Hilt for dependency injection
+- **Dependency Injection**: Hilt for clean and testable dependency injection
+- **Navigation**: Jetpack Navigation Compose for screen navigation
 - **Build Variants**: Supports 'mock' and 'prod' flavors for development and production environments
 
-### Network
+### Data Layer
 - **API Client**: Retrofit for network requests
 - **Endpoint**: https://jsonplaceholder.typicode.com/posts/1/comments
-- **Data Classes**: Model separation between DTOs (Data Transfer Objects) and Domain models
+- **Local Storage**: Room DB for offline caching of comments
+- **Repository Pattern**: Single source of truth for data operations
+
+### Features
+- Display list of comments with profile images
+- Replace profile placeholder images with photos from gallery
+- Support for both landscape and portrait orientations
+- Error handling with retry functionality
+- Network connectivity awareness with offline support
+- Responsive design that prevents text truncation
 
 ### Testing
 - **UI Tests**: Compose UI testing with ComposeTestRule
@@ -23,24 +37,27 @@ This application displays a list of comments from a JSON API. Below is a technic
 - **Unit Tests**: Repository implementation tests with mock data
 - **Mock Data**: JSON mock data for offline testing
 
-### Future Enhancements
-- Room database implementation for offline caching
-- Update all the dependencies to the latest versions (currently the only warnings)
-- Splash screen
-- Custom app icon
-- Specific error messages based on HTTP codes
+## Project Structure
+- **data**: Contains models, repository implementation, local and remote data sources
+- **di**: Dependency injection modules
+- **ui**: Compose UI screens, components, and themes
+- **util**: Utility classes and extensions
+
+## Build and Run
+1. Clone the repository
+2. Open the project in Android Studio
+3. Select either the 'mock' or 'prod' build variant
+4. Run the app on an emulator or physical device
+
+## Future Enhancements
+- Splash screen implementation
+- Custom app icon design
+- More specific error messages based on HTTP status codes
 - Enhanced accessibility features
 - Extended test coverage
-- Additional user comments features
-- Further testing
-- Bigger screens implementation
-- Extended error handling
+- Support for larger screen sizes (tablets)
 
-I had a busy day yesterday, I stayed up completing this as the commit times will reflect. I am willing to add more elements to the app I just need more time. Thank your for understanding.
-
-## Demo Images
-
-Original request:
+## Original request:
 
 Implement Java and MVVM architecture-based project to achieve below features.
 Use all jetpack components that you can use here.
@@ -59,7 +76,7 @@ Use all jetpack components that you can use here.
 8. When completed, please upload to GIT HUB and be prepared to not only walk through the code but
    demo the project.
 
-Not so professional photos of my pets:
+## Not so professional photos of my pets:
 
 Here is a photo of my dog:  
 <img src="Images/photo_2025-06-04_22-45-47.jpg" width="300"/>

@@ -1,4 +1,4 @@
-package com.redprisma.lplsuperponyup.ui
+package com.redprisma.lplsuperponyup
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,7 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
-import com.redprisma.lplsuperponyup.CommentsViewModel
+import com.redprisma.lplsuperponyup.ui.Route
 import com.redprisma.lplsuperponyup.ui.screens.CommentListScreen
 import com.redprisma.lplsuperponyup.ui.theme.LplSuperPonyUpTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,9 +51,8 @@ class MainActivity : ComponentActivity() {
                                 composable(route = Route.Home.route) {
                                     // Show list of comments
                                     CommentListScreen(
-                                        homeState,
-                                        { commentsViewModel.loadComments() }
-                                    )
+                                        homeState
+                                    ) { commentsViewModel.loadComments() }
                                 }
                             }
 

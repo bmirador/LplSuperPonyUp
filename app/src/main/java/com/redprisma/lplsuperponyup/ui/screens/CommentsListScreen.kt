@@ -66,7 +66,7 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .width(64.dp)
-                        .testTag(stringResource(R.string.loadingindicator_testing)),
+                        .testTag(stringResource(R.string.loadingIndicator_testing)),
                     color = MaterialTheme.colorScheme.secondary,
                     trackColor = MaterialTheme.colorScheme.surfaceVariant,
                 )
@@ -92,7 +92,6 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
                             comment?.run {
                                 // Display individual comment item
                                 RequestedCommentItem(
-                                    postId = postId,
                                     id = id,
                                     name = name,
                                     email = email,
@@ -114,7 +113,6 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
 @Composable
 fun RequestedCommentItem(
     modifier: Modifier = Modifier,
-    postId: Int,
     id: Int,
     name: String,
     email: String,

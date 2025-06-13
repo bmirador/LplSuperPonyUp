@@ -23,12 +23,3 @@ fun CommentEntity.toDomain(): Comment {
     )
 }
 
-fun Comment.toEntity(): CommentEntity {
-    return CommentEntity(
-        postId = postId,
-        id = id,
-        name = name,
-        email = email,
-        body = body
-    )
-}

@@ -20,7 +20,7 @@
         android:theme="@style/Theme.LplSuperPonyUp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.LplSuperPonyUp">
             <intent-filter>

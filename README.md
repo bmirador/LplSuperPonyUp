@@ -1,10 +1,6 @@
-# LPL Super Pony Up
+# LPL Super Pony Up (First thing that came to my mind)
 
-An Android application that displays a list of comments from a JSON API with profile image customization functionality.
-
-## Project Overview
-
-This Android application demonstrates modern Android development practices through a simple interface that displays comments from a JSON API. Users can customize profile images by tapping on the profile placeholder icons to select images from their device's photo gallery.
+This application displays a list of comments from a JSON API. Below is a technical overview of the implementation.
 
 ## Technical Implementation
 
@@ -32,8 +28,8 @@ This Android application demonstrates modern Android development practices throu
 
 ### Testing
 - **UI Tests**: Compose UI testing with ComposeTestRule
-  - Tests for loading, success, error, and initial states
-  - Component rendering verification
+    - Tests for loading, success, error, and initial states
+    - Component rendering verification
 - **Unit Tests**: Repository implementation tests with mock data
 - **Mock Data**: JSON mock data for offline testing
 
@@ -49,6 +45,7 @@ This Android application demonstrates modern Android development practices throu
 3. Select either the 'mock' or 'prod' build variant
 4. Run the app on an emulator or physical device
 
+
 ## Future Enhancements
 - Splash screen implementation
 - Custom app icon design
@@ -57,7 +54,9 @@ This Android application demonstrates modern Android development practices throu
 - Extended test coverage
 - Support for larger screen sizes (tablets)
 
-## Original request:
+## Demo Images
+
+Original request:
 
 Implement Java and MVVM architecture-based project to achieve below features.
 Use all jetpack components that you can use here.
@@ -76,7 +75,7 @@ Use all jetpack components that you can use here.
 8. When completed, please upload to GIT HUB and be prepared to not only walk through the code but
    demo the project.
 
-## Not so professional photos of my pets:
+Not so professional photos of my pets:
 
 Here is a photo of my dog:  
 <img src="Images/photo_2025-06-04_22-45-47.jpg" width="300"/>

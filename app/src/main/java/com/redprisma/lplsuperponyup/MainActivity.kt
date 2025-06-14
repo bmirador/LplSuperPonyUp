@@ -17,6 +17,7 @@ import androidx.navigation.createGraph
 import com.redprisma.lplsuperponyup.ui.Route
 import com.redprisma.lplsuperponyup.ui.screens.CommentListScreen
 import com.redprisma.lplsuperponyup.ui.theme.LplSuperPonyUpTheme
+import com.redprisma.lplsuperponyup.ui.viewmodels.CommentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 // Entry point for the app with Hilt dependency injection enabled

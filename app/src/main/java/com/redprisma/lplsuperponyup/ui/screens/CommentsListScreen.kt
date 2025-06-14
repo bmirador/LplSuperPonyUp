@@ -91,7 +91,7 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
                             key = { it?.id ?: Uuid.random() }) { comment ->
                             comment?.run {
                                 // Display individual comment item
-                                RequestedCommentItem(
+                                CommentItem(
                                     id = id,
                                     name = name,
                                     email = email,
@@ -111,7 +111,7 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
 
 
 @Composable
-fun RequestedCommentItem(
+fun CommentItem(
     modifier: Modifier = Modifier,
     id: Int,
     name: String,

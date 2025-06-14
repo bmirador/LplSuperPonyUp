@@ -1,7 +1,8 @@
-package com.redprisma.lplsuperponyup
+package com.redprisma.lplsuperponyup.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.redprisma.lplsuperponyup.HomeState
 import com.redprisma.lplsuperponyup.data.repository.CommentsRepository
 import com.redprisma.lplsuperponyup.data.util.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel

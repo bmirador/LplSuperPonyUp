@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
 
         // Trigger initial data load
         commentsViewModel.loadComments()
-
         // Set the Jetpack Compose UI content
         setContent {
             // Collect UI state from ViewModel with lifecycle awareness
@@ -52,7 +51,8 @@ class MainActivity : ComponentActivity() {
                                 composable(route = Route.Home.route) {
                                     // Show list of comments
                                     CommentListScreen(
-                                        homeState
+                                        modifier = Modifier.fillMaxSize(),
+                                        homeState = homeState
                                     ) { commentsViewModel.loadComments() }
                                 }
                             }

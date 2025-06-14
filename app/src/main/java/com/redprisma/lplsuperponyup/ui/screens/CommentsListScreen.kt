@@ -49,7 +49,11 @@ import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 @Composable
-fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
+fun CommentListScreen(
+    modifier: Modifier = Modifier,
+    homeState: HomeState,
+    loadComments: () -> Unit
+) {
     // Render different UI based on the current state
     when (homeState) {
         is HomeState.Initial ->
@@ -75,8 +79,7 @@ fun CommentListScreen(homeState: HomeState, loadComments: () -> Unit) {
         is HomeState.Success ->
             // Display list of comments when data is successfully loaded
             Column(
-                Modifier.fillMaxSize(),
-                verticalArrangement = Center,
+                modifier,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (homeState.comments.isEmpty()) {
@@ -191,7 +194,7 @@ fun CommentItem(
 @Composable
 private fun CommentLoadingPreview() {
     CommentListScreen(
-        HomeState.Loading
+        homeState = HomeState.Loading,
     ) { }
 }
 
@@ -199,7 +202,7 @@ private fun CommentLoadingPreview() {
 @Composable
 private fun CommentSuccessPreview() {
     CommentListScreen(
-        HomeState.Success(
+        homeState = HomeState.Success(
             listOf(
                 Comment(
                     postId = 1,
@@ -230,7 +233,7 @@ private fun CommentSuccessPreview() {
 @Composable
 private fun CommentErrorNetworkPreview() {
     CommentListScreen(
-        HomeState.Error(AppError.Network)
+        homeState = HomeState.Error(AppError.Network)
     ) {}
 }
 
@@ -238,6 +241,6 @@ private fun CommentErrorNetworkPreview() {
 @Composable
 private fun CommentErrorServerPreview() {
     CommentListScreen(
-        HomeState.Error(AppError.Server)
+        homeState = HomeState.Error(AppError.Server)
     ) {}
 }

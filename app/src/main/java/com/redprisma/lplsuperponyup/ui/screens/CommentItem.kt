@@ -61,9 +61,9 @@ fun CommentItem(
             .fillMaxWidth()
     ) {
         Box(
-            modifier = Modifier.Companion
+            modifier = Modifier
                 .size(48.dp)
-                .align(Alignment.Companion.Top)
+                .align(Alignment.Top)
                 .clip(CircleShape)
                 .clickable { imagePickerLauncher.launch("image/*") }
         ) {
@@ -71,17 +71,16 @@ fun CommentItem(
                 AsyncImage(
                     model = imageUri,
                     contentDescription = stringResource(R.string.user_icon),
-                    contentScale = ContentScale.Companion.Crop,
-                    modifier = Modifier.Companion
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
                         .fillMaxSize()
                         .clip(CircleShape)
                 )
             } else {
-                Icons.Default.AccountCircle.tintColor
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = stringResource(R.string.user_icon),
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .fillMaxSize()
                         .clip(CircleShape),
                     tint = Color.LightGray
@@ -89,18 +88,18 @@ fun CommentItem(
             }
         }
 
-        Spacer(modifier = Modifier.Companion.width(12.dp))
+        Spacer(modifier = Modifier.width(12.dp))
 
-        Column(modifier = Modifier.Companion.weight(1f)) {
+        Column(modifier = Modifier.weight(1f)) {
             Row(
-                modifier = Modifier.Companion.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    modifier = Modifier.Companion.weight(1f),
+                    modifier = Modifier.weight(1f),
                     text = name,
                     style = MaterialTheme.typography.bodyMedium,
-                    overflow = TextOverflow.Companion.Ellipsis
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(text = email, style = MaterialTheme.typography.bodySmall)
             }
@@ -109,7 +108,7 @@ fun CommentItem(
                 text = stringResource(R.string.id, id),
                 style = MaterialTheme.typography.labelMedium
             )
-            Spacer(modifier = Modifier.Companion.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(text = body, style = MaterialTheme.typography.bodySmall)
         }
     }

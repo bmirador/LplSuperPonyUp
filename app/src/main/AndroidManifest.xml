@@ -13,22 +13,23 @@
         android:name=".LplSuperPonyUp"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_cat_global"
         android:label="@string/app_name"
+        android:icon="@mipmap/ic_cat_global"
         android:roundIcon="@mipmap/ic_cat_global"
         android:supportsRtl="true"
         android:theme="@style/Theme.Splash.LplSuperPonyUp"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
+
             android:exported="true"
             android:theme="@style/Theme.Splash.LplSuperPonyUp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

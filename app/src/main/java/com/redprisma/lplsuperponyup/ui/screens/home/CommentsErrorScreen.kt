@@ -1,4 +1,4 @@
-package com.redprisma.lplsuperponyup.ui.screens
+package com.redprisma.lplsuperponyup.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

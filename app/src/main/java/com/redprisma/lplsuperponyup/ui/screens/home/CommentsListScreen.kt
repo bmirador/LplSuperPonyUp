@@ -1,5 +1,6 @@
-package com.redprisma.lplsuperponyup.ui.screens
+package com.redprisma.lplsuperponyup.ui.screens.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.redprisma.lplsuperponyup.HomeState
 import com.redprisma.lplsuperponyup.R
 import com.redprisma.lplsuperponyup.data.models.Comment
 import com.redprisma.lplsuperponyup.data.util.AppError
@@ -59,10 +59,13 @@ fun CommentListScreen(
             // Display list of comments when data is successfully loaded
             Column(
                 modifier,
-                horizontalAlignment = Alignment.CenterHorizontally
+                verticalArrangement = if (homeState.comments.isEmpty()) Center else Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 if (homeState.comments.isEmpty()) {
-                    Text(stringResource(R.string.no_comments_were_found))
+                    Text(
+                        text = stringResource(R.string.no_comments_were_found)
+                    )
                 } else {
                     if (homeState.fromCache) {
                         Text(stringResource(R.string.showing_results_from_cache_there_was_a_problem_retrieving_the_latest_comments))
@@ -73,6 +76,7 @@ fun CommentListScreen(
                             // If a comment does not have an id it probably should not be shown
                             // this is something I would need to ask if not detailed on the
                             // story, for now, I decided to give it a random ID if null
+                            // the question can be extended to any part of the JSON attributes
                             key = { _, comment -> comment?.id ?: Uuid.random() }) { i, comment ->
                             Column(modifier = Modifier.padding(start = 16.dp)) {
                                 comment?.run {

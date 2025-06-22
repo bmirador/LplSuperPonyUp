@@ -1,4 +1,4 @@
-package com.redprisma.lplsuperponyup
+package com.redprisma.lplsuperponyup.ui.screens.home
 
 import com.redprisma.lplsuperponyup.data.models.Comment
 import com.redprisma.lplsuperponyup.data.util.AppError

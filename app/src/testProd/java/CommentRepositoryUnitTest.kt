@@ -1,27 +1,29 @@
-package com.redprisma.lplsuperponyup
-
 import app.cash.turbine.test
 import com.redprisma.lplsuperponyup.data.local.db.CommentDao
 import com.redprisma.lplsuperponyup.data.models.Comment
 import com.redprisma.lplsuperponyup.data.remote.CommentsService
 import com.redprisma.lplsuperponyup.data.remote.models.CommentDto
 import com.redprisma.lplsuperponyup.data.remote.models.toEntity
+import com.redprisma.lplsuperponyup.data.repository.CommentsRepository
 import com.redprisma.lplsuperponyup.data.repository.CommentsRepositoryImpl
 import com.redprisma.lplsuperponyup.data.util.AppError
 import com.redprisma.lplsuperponyup.data.util.DataResult
+import com.redprisma.lplsuperponyup.logger.Logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CommentsRepositoryImplTest {
 
     private val api: CommentsService = mock()
     private val dao: CommentDao = mock()
-    private lateinit var repository: CommentsRepositoryImpl
+    private val logger: Logger = mock()
+    private lateinit var repository: CommentsRepository
 
     private val fakeDto = CommentDto(1, 1, "John Doe", "john@example.com", "Hello world")
     private val fakeEntity = fakeDto.toEntity()
@@ -29,7 +31,7 @@ class CommentsRepositoryImplTest {
 
     @Before
     fun setup() {
-        repository = CommentsRepositoryImpl(api, dao)
+        repository = CommentsRepositoryImpl(api, dao, logger)
     }
 
     @Test

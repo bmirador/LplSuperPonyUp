@@ -17,8 +17,9 @@ object RepositoryProvider {
     @Provides
     @Singleton
     fun provideCommentsRepository(
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
+        assetPathProvider: AssetPathProviderImpl
     ): CommentsRepository {
-        return MockCommentsRepository(appContext)
+        return MockCommentsRepository(appContext, assetPathProvider)
     }
 }

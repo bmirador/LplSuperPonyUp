@@ -1,11 +1,11 @@
-package com.redprisma.lplsuperponyup.ui.viewmodels
+package com.redprisma.lplsuperponyup.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.redprisma.lplsuperponyup.HomeState
 import com.redprisma.lplsuperponyup.data.repository.CommentsRepository
 import com.redprisma.lplsuperponyup.data.util.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class CommentsViewModel @Inject constructor(
 
     // Loads comments from repository and updates the UI state accordingly
     fun loadComments() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _homeState.value = HomeState.Loading // Show loading state
             commentsRepository.fetchComments()
                 .collect { result ->

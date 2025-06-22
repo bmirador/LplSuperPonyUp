@@ -1,4 +1,4 @@
-package com.redprisma.lplsuperponyup.ui.screens
+package com.redprisma.lplsuperponyup.ui.screens.home
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

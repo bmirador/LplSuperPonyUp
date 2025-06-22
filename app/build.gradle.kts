@@ -4,19 +4,19 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     alias(libs.plugins.dagger.hilt)
-//    alias(libs.plugins.ksp)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
     kotlin("kapt")
-    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.redprisma.lplsuperponyup"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.redprisma.lplsuperponyup"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -34,6 +34,7 @@ android {
         }
         release {
             isMinifyEnabled = false
+            isDebuggable = false
             buildConfigField("Boolean", "DEBUG", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -56,9 +57,11 @@ android {
 
     productFlavors {
         create("prod") {
+            buildConfigField("Boolean", "IS_MOCK", "false")
             dimension = "mode"
         }
         create("mock") {
+            buildConfigField("Boolean", "IS_MOCK", "true")
             dimension = "mode"
         }
     }
@@ -76,7 +79,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.core.splashscreen)
-    implementation(libs.navigation.compose)
     implementation(libs.fragment.ktx)
     implementation(libs.activity.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
@@ -115,6 +117,13 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.datastore.preferences)
+
+    // Compose Navigation 3
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
 
     testImplementation(libs.turbine)
 }

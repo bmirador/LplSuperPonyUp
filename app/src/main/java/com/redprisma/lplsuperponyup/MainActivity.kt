@@ -8,17 +8,27 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.createGraph
-import com.redprisma.lplsuperponyup.ui.Route
-import com.redprisma.lplsuperponyup.ui.screens.CommentListScreen
+import androidx.navigation3.runtime.EntryProviderBuilder
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.redprisma.lplsuperponyup.ui.screens.home.HomeRoute
+import com.redprisma.lplsuperponyup.ui.screens.home.HomeRoute.Home
+import com.redprisma.lplsuperponyup.ui.screens.home.CommentListScreen
+import com.redprisma.lplsuperponyup.ui.screens.home.HomeState
 import com.redprisma.lplsuperponyup.ui.theme.LplSuperPonyUpTheme
-import com.redprisma.lplsuperponyup.ui.viewmodels.CommentsViewModel
+import com.redprisma.lplsuperponyup.ui.util.AssetPathState
+import com.redprisma.lplsuperponyup.ui.util.longClickForMock
+import com.redprisma.lplsuperponyup.ui.screens.home.CommentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 // Entry point for the app with Hilt dependency injection enabled
 @AndroidEntryPoint
@@ -26,6 +36,9 @@ class MainActivity : ComponentActivity() {
 
     // ViewModel scoped to this activity
     private val commentsViewModel: CommentsViewModel by viewModels()
+
+    @Inject
+    lateinit var assetPathState: AssetPathState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,41 +50,65 @@ class MainActivity : ComponentActivity() {
             // Collect UI state from ViewModel with lifecycle awareness
             val homeState = commentsViewModel.homeState.collectAsStateWithLifecycle(this).value
 
-            // Navigation controller for managing screen navigation
-            val navController = rememberNavController()
-
             // Apply custom app theme
             LplSuperPonyUpTheme {
+
+                val modifier =
+                    if (BuildConfig.IS_MOCK) Modifier.longClickForMock(assetPathState) else Modifier
                 Scaffold(
+                    modifier = modifier,
                     content = { innerPadding ->
-
-                        // Create navigation graph with defined routes
-                        val graph =
-                            navController.createGraph(startDestination = Route.Home.route) {
-                                composable(route = Route.Home.route) {
-                                    // Show list of comments
-                                    CommentListScreen(
-                                        modifier = Modifier.fillMaxSize(),
-                                        homeState = homeState
-                                    ) { commentsViewModel.loadComments() }
-                                }
-                            }
-
-                        // Main layout container with padding
                         Column(
                             modifier = Modifier
                                 .padding(innerPadding)
                                 .fillMaxSize()
                         ) {
-                            // Host for rendering the current screen based on navigation
-                            NavHost(
-                                navController = navController,
-                                graph = graph
+                            EntryProviderDsl(
+                                loadComments = commentsViewModel::loadComments,
+                                homeState = homeState
                             )
                         }
                     }
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun EntryProviderDsl(loadComments: () -> Unit, homeState: HomeState) {
+    val backStack = rememberNavBackStack(Home)
+    NavDisplay(
+        backStack = backStack,
+        entryProvider = entryProvider {
+            HomeSection(
+                homeState = homeState,
+                loadComments = loadComments
+            )
+            DetailComment()
+        }
+    )
+}
+
+@Composable
+private fun EntryProviderBuilder<NavKey>.DetailComment() {
+    entry<HomeRoute.CommentDetail>(
+        metadata = mapOf("commentId" to "1")
+    ) { key -> Text("Product ${key.route} ") }
+}
+
+@Composable
+private fun EntryProviderBuilder<NavKey>.HomeSection(
+    homeState: HomeState,
+    loadComments: () -> Unit
+) {
+    entry<Home> {
+        Column {
+            CommentListScreen(
+                modifier = Modifier.fillMaxSize(),
+                homeState = homeState,
+                loadComments = loadComments
+            )
         }
     }
 }

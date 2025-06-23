@@ -56,9 +56,9 @@ fun Modifier.longClickForMock(assetPathState: AssetPathState): Modifier {
                         Text(
                             modifier = Modifier.clickable {
                                 scope.launch { assetPathState.setPath(it) }
-                            },
+                            }.padding(16.dp),
                             text = it,
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                 }

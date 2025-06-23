@@ -9,13 +9,14 @@ import com.redprisma.lplsuperponyup.data.remote.models.CommentDto
 import com.redprisma.lplsuperponyup.data.remote.models.toEntity
 import com.redprisma.lplsuperponyup.data.util.DataResult
 import com.redprisma.lplsuperponyup.data.util.toAppError
-import com.redprisma.lplsuperponyup.di.AssetPathState
+import com.redprisma.lplsuperponyup.ui.util.AssetPathState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.lang.reflect.Type
 import javax.inject.Inject
 
 class MockCommentsRepository @Inject constructor(
@@ -35,8 +36,8 @@ class MockCommentsRepository @Inject constructor(
                             .bufferedReader()
                             .use { it.readText() }
 
-                        val listType = object : TypeToken<List<CommentDto>>() {}.type
-                        val comments = gson.fromJson<List<CommentDto>>(json, listType)
+                        val listType: Type? = object : TypeToken<List<CommentDto>>() {}.type
+                        val comments: List<Comment> = gson.fromJson<List<CommentDto>>(json, listType)
                             .map { it.toEntity().toDomain() }
 
                         emit(DataResult.Success(comments, fromCache = false))

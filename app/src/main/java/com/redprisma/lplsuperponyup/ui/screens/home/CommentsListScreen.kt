@@ -24,7 +24,6 @@ import com.redprisma.lplsuperponyup.R
 import com.redprisma.lplsuperponyup.data.models.Comment
 import com.redprisma.lplsuperponyup.data.util.AppError
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 @Composable
@@ -73,13 +72,9 @@ fun CommentListScreen(
                     LazyColumn {
                         itemsIndexed(
                             homeState.comments,
-                            // If a comment does not have an id it probably should not be shown
-                            // this is something I would need to ask if not detailed on the
-                            // story, for now, I decided to give it a random ID if null
-                            // the question can be extended to any part of the JSON attributes
-                            key = { _, comment -> comment?.id ?: Uuid.random() }) { i, comment ->
+                            key = { _, comment -> comment.id }) { i, comment ->
                             Column(modifier = Modifier.padding(start = 16.dp)) {
-                                comment?.run {
+                                comment.run {
                                     CommentItem(
                                         id = id,
                                         name = name,
@@ -138,7 +133,9 @@ private fun CommentSuccessPreview() {
                             "voluptatem error expedita pariatur\n" +
                             "nihil sint nostrum voluptatem reiciendis et"
                 )
-            ), fromCache = false
+            ),
+            fromCache = false,
+            error = AppError.Unknown()
         )
     ) {}
 }

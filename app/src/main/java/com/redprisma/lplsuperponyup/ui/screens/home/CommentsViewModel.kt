@@ -37,7 +37,8 @@ class CommentsViewModel @Inject constructor(
                         is DataResult.Success -> {
                             _homeState.value = HomeState.Success(
                                 comments = result.data,
-                                fromCache = result.fromCache
+                                fromCache = result.fromCache,
+                                error = result.error
                             )
                         }
                     }

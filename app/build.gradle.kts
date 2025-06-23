@@ -126,6 +126,7 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
 
     testImplementation(libs.turbine)
+    debugImplementation(libs.leakcanary.android)
 }
 
 hilt {

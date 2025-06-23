@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.util.AppError
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentListScreen
 import com.redprisma.lplsuperponyup.ui.screens.home.HomeState
 import org.junit.Rule
@@ -40,7 +41,7 @@ class CommentListScreenTest {
 
         composeTestRule.setContent {
             CommentListScreen(
-                homeState = HomeState.Success(comments, fromCache = false),
+                homeState = HomeState.Success(comments, fromCache = false, AppError.Unknown()),
                 loadComments = {}
             )
         }
@@ -58,7 +59,7 @@ class CommentListScreenTest {
     fun emptySuccessState_showsEmptyMessage() {
         composeTestRule.setContent {
             CommentListScreen(
-                homeState = HomeState.Success(emptyList(), fromCache = false),
+                homeState = HomeState.Success(emptyList(), fromCache = false, AppError.Unknown()),
                 loadComments = {}
             )
         }
@@ -76,7 +77,7 @@ class CommentListScreenTest {
 
         composeTestRule.setContent {
             CommentListScreen(
-                homeState = HomeState.Success(comments, fromCache = true),
+                homeState = HomeState.Success(comments, fromCache = true, AppError.Unknown()),
                 loadComments = {}
             )
         }

@@ -22,7 +22,8 @@ sealed interface HomeState {
     /**
      * Success on requesting list of comments.
      */
-    data class Success(val comments: List<Comment?>, val fromCache: Boolean) : HomeState
+    data class Success(val comments: List<Comment>, val fromCache: Boolean, val error: AppError?) :
+        HomeState
 
     /**
      * There was an error while retrieving comments.

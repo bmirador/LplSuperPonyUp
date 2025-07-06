@@ -2,7 +2,7 @@ package com.redprisma.lplsuperponyup.data.repository
 
 import com.redprisma.lplsuperponyup.data.local.db.CommentDao
 import com.redprisma.lplsuperponyup.data.local.db.models.toDomain
-import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.domain.Comment
 import com.redprisma.lplsuperponyup.data.remote.CommentsService
 import com.redprisma.lplsuperponyup.data.remote.models.toEntity
 import com.redprisma.lplsuperponyup.data.util.AppError

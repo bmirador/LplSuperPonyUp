@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.redprisma.lplsuperponyup.R
-import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.domain.Comment
 import com.redprisma.lplsuperponyup.data.util.AppError
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -29,16 +29,16 @@ import kotlin.uuid.ExperimentalUuidApi
 @Composable
 fun CommentListScreen(
     modifier: Modifier = Modifier,
-    homeState: HomeState,
+    homeState: CommentListState,
     loadComments: () -> Unit
 ) {
     // Render different UI based on the current state
     when (homeState) {
-        is HomeState.Initial ->
+        is CommentListState.Initial ->
             // Shown if something unexpected happened before loading
             Text(stringResource(R.string.if_you_are_reading_this_something_somewhere_went_really_wrong))
 
-        is HomeState.Loading ->
+        is CommentListState.Loading ->
             // Loading indicator centered on the screen
             Column(
                 Modifier.fillMaxSize(),
@@ -54,7 +54,7 @@ fun CommentListScreen(
                 )
             }
 
-        is HomeState.Success ->
+        is CommentListState.Success ->
             // Display list of comments when data is successfully loaded
             Column(
                 modifier,
@@ -92,7 +92,7 @@ fun CommentListScreen(
                 }
             }
 
-        is HomeState.Error ->
+        is CommentListState.Error ->
             // Display error screen with retry option
             ErrorScreen(homeState.appError, loadComments)
     }
@@ -103,7 +103,7 @@ fun CommentListScreen(
 @Composable
 private fun CommentLoadingPreview() {
     CommentListScreen(
-        homeState = HomeState.Loading,
+        homeState = CommentListState.Loading,
     ) { }
 }
 
@@ -111,7 +111,7 @@ private fun CommentLoadingPreview() {
 @Composable
 private fun CommentSuccessPreview() {
     CommentListScreen(
-        homeState = HomeState.Success(
+        homeState = CommentListState.Success(
             listOf(
                 Comment(
                     postId = 1,
@@ -144,7 +144,7 @@ private fun CommentSuccessPreview() {
 @Composable
 private fun CommentErrorNetworkPreview() {
     CommentListScreen(
-        homeState = HomeState.Error(AppError.Network)
+        homeState = CommentListState.Error(AppError.Network)
     ) {}
 }
 
@@ -152,6 +152,6 @@ private fun CommentErrorNetworkPreview() {
 @Composable
 private fun CommentErrorServerPreview() {
     CommentListScreen(
-        homeState = HomeState.Error(AppError.Server)
+        homeState = CommentListState.Error(AppError.Server)
     ) {}
 }

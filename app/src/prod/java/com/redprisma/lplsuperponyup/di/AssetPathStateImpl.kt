@@ -1,6 +1,6 @@
 package com.redprisma.lplsuperponyup.di
 
-import com.redprisma.lplsuperponyup.ui.util.AssetPathState
+import com.redprisma.lplsuperponyup.data.local.datastore.AssetPathState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

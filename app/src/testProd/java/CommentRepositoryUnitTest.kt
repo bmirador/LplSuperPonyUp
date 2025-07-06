@@ -1,6 +1,6 @@
 import app.cash.turbine.test
 import com.redprisma.lplsuperponyup.data.local.db.CommentDao
-import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.domain.Comment
 import com.redprisma.lplsuperponyup.data.remote.CommentsService
 import com.redprisma.lplsuperponyup.data.remote.models.CommentDto
 import com.redprisma.lplsuperponyup.data.remote.models.toEntity

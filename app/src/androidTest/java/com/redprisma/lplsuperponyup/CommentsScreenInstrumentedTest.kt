@@ -7,10 +7,10 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.domain.Comment
 import com.redprisma.lplsuperponyup.data.util.AppError
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentListScreen
-import com.redprisma.lplsuperponyup.ui.screens.home.HomeState
+import com.redprisma.lplsuperponyup.ui.screens.home.CommentListState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +24,7 @@ class CommentListScreenTest {
     @Test
     fun loadingState_showsLoadingIndicator() {
         composeTestRule.setContent {
-            CommentListScreen(homeState = HomeState.Loading, loadComments = {})
+            CommentListScreen(homeState = CommentListState.Loading, loadComments = {})
         }
 
         composeTestRule
@@ -41,7 +41,7 @@ class CommentListScreenTest {
 
         composeTestRule.setContent {
             CommentListScreen(
-                homeState = HomeState.Success(comments, fromCache = false, AppError.Unknown()),
+                homeState = CommentListState.Success(comments, fromCache = false, AppError.Unknown()),
                 loadComments = {}
             )
         }
@@ -59,7 +59,7 @@ class CommentListScreenTest {
     fun emptySuccessState_showsEmptyMessage() {
         composeTestRule.setContent {
             CommentListScreen(
-                homeState = HomeState.Success(emptyList(), fromCache = false, AppError.Unknown()),
+                homeState = CommentListState.Success(emptyList(), fromCache = false, AppError.Unknown()),
                 loadComments = {}
             )
         }
@@ -77,7 +77,7 @@ class CommentListScreenTest {
 
         composeTestRule.setContent {
             CommentListScreen(
-                homeState = HomeState.Success(comments, fromCache = true, AppError.Unknown()),
+                homeState = CommentListState.Success(comments, fromCache = true, AppError.Unknown()),
                 loadComments = {}
             )
         }

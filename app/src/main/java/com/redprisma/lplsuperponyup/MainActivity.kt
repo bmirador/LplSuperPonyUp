@@ -18,12 +18,12 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.redprisma.lplsuperponyup.ui.screens.home.HomeRoute
-import com.redprisma.lplsuperponyup.ui.screens.home.HomeRoute.Home
+import com.redprisma.lplsuperponyup.ui.screens.home.CommentRoute
+import com.redprisma.lplsuperponyup.ui.screens.home.CommentRoute.CommentList
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentListScreen
-import com.redprisma.lplsuperponyup.ui.screens.home.HomeState
+import com.redprisma.lplsuperponyup.ui.screens.home.CommentListState
 import com.redprisma.lplsuperponyup.ui.theme.LplSuperPonyUpTheme
-import com.redprisma.lplsuperponyup.ui.util.AssetPathState
+import com.redprisma.lplsuperponyup.data.local.datastore.AssetPathState
 import com.redprisma.lplsuperponyup.ui.util.longClickForMock
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -76,8 +76,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun EntryProviderDsl(loadComments: () -> Unit, homeState: HomeState) {
-    val backStack = rememberNavBackStack(Home)
+fun EntryProviderDsl(loadComments: () -> Unit, homeState: CommentListState) {
+    val backStack = rememberNavBackStack(CommentList)
     NavDisplay(
         backStack = backStack,
         entryProvider = entryProvider {
@@ -92,17 +92,17 @@ fun EntryProviderDsl(loadComments: () -> Unit, homeState: HomeState) {
 
 @Composable
 private fun EntryProviderBuilder<NavKey>.DetailComment() {
-    entry<HomeRoute.CommentDetail>(
+    entry<CommentRoute.CommentDetail>(
         metadata = mapOf("commentId" to "1")
-    ) { key -> Text("Product ${key.route} ") }
+    ) { key -> Text("Product") }
 }
 
 @Composable
 private fun EntryProviderBuilder<NavKey>.HomeSection(
-    homeState: HomeState,
+    homeState: CommentListState,
     loadComments: () -> Unit
 ) {
-    entry<Home> {
+    entry<CommentList> {
         Column {
             CommentListScreen(
                 modifier = Modifier.fillMaxSize(),

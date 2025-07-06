@@ -1,4 +1,4 @@
-package com.redprisma.lplsuperponyup.data.models
+package com.redprisma.lplsuperponyup.data.domain
 
 data class Comment(
     val postId: Int,

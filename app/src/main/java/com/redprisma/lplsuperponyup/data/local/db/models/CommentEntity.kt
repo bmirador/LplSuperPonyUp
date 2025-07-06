@@ -2,7 +2,7 @@ package com.redprisma.lplsuperponyup.data.local.db.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.redprisma.lplsuperponyup.data.models.Comment
+import com.redprisma.lplsuperponyup.data.domain.Comment
 
 @Entity(tableName = "comments")
 data class CommentEntity(

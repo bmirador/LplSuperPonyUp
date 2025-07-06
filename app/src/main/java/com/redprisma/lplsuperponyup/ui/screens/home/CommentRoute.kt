@@ -4,9 +4,9 @@ import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class HomeRoute(val route: String) : NavKey {
+sealed class CommentRoute() : NavKey {
     @Serializable
-    data object Home : HomeRoute(route = "home")
+    data object CommentList : CommentRoute()
     @Serializable
-    data object CommentDetail : HomeRoute(route = "home")
+    data object CommentDetail : CommentRoute()
 }

@@ -15,7 +15,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_cat_global"
-        android:roundIcon="@mipmap/ic_cat_global"
+        android:roundIcon="@mipmap/ic_cat_global_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Splash.LplSuperPonyUp"
         tools:targetApi="31">

@@ -18,24 +18,24 @@ class CommentsViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Internal mutable state for UI
-    private val _homeState = MutableStateFlow<HomeState>(HomeState.Initial)
+    private val _homeState = MutableStateFlow<CommentListState>(CommentListState.Initial)
 
     // Exposed immutable state for observers (e.g., UI)
-    val homeState: StateFlow<HomeState> = _homeState
+    val homeState: StateFlow<CommentListState> = _homeState
 
     // Loads comments from repository and updates the UI state accordingly
     fun loadComments() {
         viewModelScope.launch(Dispatchers.IO) {
-            _homeState.value = HomeState.Loading // Show loading state
+            _homeState.value = CommentListState.Loading // Show loading state
             commentsRepository.fetchComments()
                 .collect { result ->
                     when (result) {
                         is DataResult.Error -> {
-                            _homeState.value = HomeState.Error(appError = result.appError)
+                            _homeState.value = CommentListState.Error(appError = result.appError)
                         }
 
                         is DataResult.Success -> {
-                            _homeState.value = HomeState.Success(
+                            _homeState.value = CommentListState.Success(
                                 comments = result.data,
                                 fromCache = result.fromCache,
                                 error = result.error

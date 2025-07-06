@@ -69,6 +69,10 @@ android {
 
 dependencies {
 
+    implementation(project(":core:network"))
+    implementation(project(":core:db"))
+    implementation(project(":core:common"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -92,6 +96,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.converter.gson)
 
+    //DI Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
@@ -112,13 +117,6 @@ dependencies {
 
     implementation(libs.coil.compose)
 
-    implementation(libs.androidx.room.runtime)
-
-    ksp(libs.androidx.room.compiler)
-    annotationProcessor(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.datastore.preferences)
-
     // Compose Navigation 3
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.kotlinx.serialization.core)
@@ -127,6 +125,7 @@ dependencies {
 
     testImplementation(libs.turbine)
     debugImplementation(libs.leakcanary.android)
+    testImplementation(kotlin("test"))
 }
 
 hilt {

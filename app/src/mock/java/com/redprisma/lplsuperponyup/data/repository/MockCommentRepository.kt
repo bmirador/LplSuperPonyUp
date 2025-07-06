@@ -36,7 +36,11 @@ class MockCommentsRepository @Inject constructor(
                             .bufferedReader()
                             .use { it.readText() }
 
-                        val listType: Type? = object : TypeToken<List<CommentDto>>() {}.type
+                        val listType = TypeToken.getParameterized(
+                            List::class.java,+
+                            CommentDto::class.java
+                        ).type
+
                         val comments: List<Comment> = gson.fromJson<List<CommentDto>>(json, listType)
                             .map { it.toEntity().toDomain() }
 

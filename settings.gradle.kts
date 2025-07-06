@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "LplSuperPonyUp"
 include(":app")
- 
+include(":core:network")
+include(":core:db")
+include(":core:common")

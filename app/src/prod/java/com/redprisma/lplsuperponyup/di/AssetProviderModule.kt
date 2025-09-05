@@ -1,6 +1,6 @@
 package com.redprisma.lplsuperponyup.di
 
-import com.redprisma.lplsuperponyup.data.local.datastore.AssetPathState
+import com.redprisma.lplsuperponyup.data.datastore.AssetPathState
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

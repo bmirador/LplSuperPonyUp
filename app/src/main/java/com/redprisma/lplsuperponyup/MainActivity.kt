@@ -11,19 +11,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderBuilder
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.redprisma.lplsuperponyup.data.datastore.AssetPathState
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentRoute
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentRoute.CommentList
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentListScreen
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentListState
 import com.redprisma.lplsuperponyup.ui.theme.LplSuperPonyUpTheme
-import com.redprisma.lplsuperponyup.data.local.datastore.AssetPathState
 import com.redprisma.lplsuperponyup.ui.util.longClickForMock
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +47,7 @@ class MainActivity : ComponentActivity() {
         // Set the Jetpack Compose UI content
         setContent {
             // Collect UI state from ViewModel with lifecycle awareness
-            val homeState = commentsViewModel.homeState.collectAsStateWithLifecycle(this).value
+            val homeState = commentsViewModel.homeState.value
 
             // Apply custom app theme
             LplSuperPonyUpTheme {

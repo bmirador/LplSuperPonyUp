@@ -1,6 +1,6 @@
 package com.redprisma.lplsuperponyup.ui.screens.home
 
-import com.redprisma.lplsuperponyup.data.domain.Comment
+import com.example.domain.Comment
 import com.redprisma.lplsuperponyup.data.util.AppError
 
 /**

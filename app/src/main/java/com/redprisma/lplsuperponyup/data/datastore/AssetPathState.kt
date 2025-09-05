@@ -1,4 +1,4 @@
-package com.redprisma.lplsuperponyup.data.local.datastore
+package com.redprisma.lplsuperponyup.data.datastore
 
 import kotlinx.coroutines.flow.StateFlow
 

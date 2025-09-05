@@ -1,8 +1,5 @@
-package com.redprisma.lplsuperponyup.di
+package com.redprisma.network.remote
 
-import com.redprisma.lplsuperponyup.BuildConfig
-import com.redprisma.lplsuperponyup.data.remote.CommentsService
-import com.redprisma.lplsuperponyup.data.remote.clientBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,11 +17,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        if (BuildConfig.DEBUG) {
+//        if (BuildConfig.DEBUG) {
             clientBuilder.addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
-        }
+//        }
 
         return clientBuilder.build()
     }

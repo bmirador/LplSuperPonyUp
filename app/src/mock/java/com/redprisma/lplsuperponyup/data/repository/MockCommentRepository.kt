@@ -1,22 +1,21 @@
 package com.redprisma.lplsuperponyup.data.repository
 
 import android.content.Context
+import com.example.domain.Comment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.redprisma.lplsuperponyup.data.local.db.models.toDomain
-import com.redprisma.lplsuperponyup.data.models.Comment
-import com.redprisma.lplsuperponyup.data.remote.models.CommentDto
-import com.redprisma.lplsuperponyup.data.remote.models.toEntity
+import com.redprisma.lplsuperponyup.data.datastore.AssetPathState
 import com.redprisma.lplsuperponyup.data.util.DataResult
 import com.redprisma.lplsuperponyup.data.util.toAppError
-import com.redprisma.lplsuperponyup.ui.util.AssetPathState
+import com.redprisma.lplsuperponyup.data.util.toDomain
+import com.redprisma.lplsuperponyup.data.util.toEntity
+import com.redprisma.network.remote.models.CommentDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.lang.reflect.Type
 import javax.inject.Inject
 
 class MockCommentsRepository @Inject constructor(
@@ -37,12 +36,12 @@ class MockCommentsRepository @Inject constructor(
                             .use { it.readText() }
 
                         val listType = TypeToken.getParameterized(
-                            List::class.java,+
-                            CommentDto::class.java
+                            List::class.java, CommentDto::class.java
                         ).type
 
-                        val comments: List<Comment> = gson.fromJson<List<CommentDto>>(json, listType)
-                            .map { it.toEntity().toDomain() }
+                        val comments: List<Comment> =
+                            gson.fromJson<List<CommentDto>>(json, listType)
+                                .map { it.toEntity().toDomain() }
 
                         emit(DataResult.Success(comments, fromCache = false))
                     } catch (e: Exception) {

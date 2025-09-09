@@ -69,9 +69,7 @@ android {
 
 dependencies {
 
-    implementation(project(":core:network"))
-    implementation(project(":core:common"))
-    implementation(project(":core:db"))
+    implementation(project(":core:data"))
     implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
@@ -91,17 +89,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.constraintlayout.compose)
 
-    implementation(libs.retrofit)
-    implementation(libs.okhttp3)
-    implementation(libs.logging.interceptor)
-    implementation(libs.gson)
-    implementation(libs.converter.gson)
-
     //DI Hilt
     implementation(libs.hilt.android)
-    implementation(libs.androidx.datastore.core)
-    implementation(libs.androidx.datastore)
-    implementation(libs.androidx.datastore.preferences)
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)

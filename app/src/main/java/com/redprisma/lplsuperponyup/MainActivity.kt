@@ -17,7 +17,7 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.redprisma.lplsuperponyup.data.datastore.AssetPathState
+import com.example.data.AssetPathState
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentRoute
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentRoute.CommentList
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentListScreen

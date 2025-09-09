@@ -1,17 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.jetbrains.kotlin.serialization)
-    alias(libs.plugins.dagger.hilt)
-    kotlin("kapt")
 }
 
 android {
-    namespace = "com.redprisma.network"
+    namespace = "com.example.examples"
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 28
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -43,15 +40,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-
-    implementation(libs.kotlinx.serialization.core)
-
-    implementation(libs.retrofit)
-    implementation(libs.okhttp3)
-    implementation(libs.logging.interceptor)
-    implementation(libs.gson)
-    implementation(libs.converter.gson)
 }

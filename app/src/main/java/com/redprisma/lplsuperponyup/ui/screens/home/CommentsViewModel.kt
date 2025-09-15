@@ -4,13 +4,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.redprisma.lplsuperponyup.data.repository.CommentsRepository
-import com.redprisma.lplsuperponyup.data.util.DataResult
+import com.example.data.CommentsRepository
+import com.example.data.util.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +28,7 @@ class CommentsViewModel @Inject constructor(
                 .collect { result ->
                     when (result) {
                         is DataResult.Error -> {
-                            _homeState.value = CommentListState.Error(appError = result.appError)
+                            _homeState.value = CommentListState.Error(error = result.appError)
                         }
 
                         is DataResult.Success -> {

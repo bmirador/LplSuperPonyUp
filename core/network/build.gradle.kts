@@ -49,8 +49,8 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.core)
 
-    implementation(libs.retrofit)
-    implementation(libs.okhttp3)
+    api(libs.retrofit)
+    api(libs.okhttp3)
     implementation(libs.logging.interceptor)
     implementation(libs.gson)
     implementation(libs.converter.gson)

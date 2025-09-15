@@ -21,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.domain.Comment
+import com.example.domain.DomainError
 import com.redprisma.lplsuperponyup.R
-import com.redprisma.lplsuperponyup.data.util.AppError
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
@@ -94,7 +94,7 @@ fun CommentListScreen(
 
         is CommentListState.Error ->
             // Display error screen with retry option
-            ErrorScreen(homeState.appError, loadComments)
+            ErrorScreen(homeState.error, loadComments)
     }
 }
 
@@ -135,7 +135,7 @@ private fun CommentSuccessPreview() {
                 )
             ),
             fromCache = false,
-            error = AppError.Unknown()
+            error = DomainError.Unknown()
         )
     ) {}
 }
@@ -144,7 +144,7 @@ private fun CommentSuccessPreview() {
 @Composable
 private fun CommentErrorNetworkPreview() {
     CommentListScreen(
-        homeState = CommentListState.Error(AppError.Network)
+        homeState = CommentListState.Error(DomainError.NetworkUnavailable)
     ) {}
 }
 
@@ -152,6 +152,6 @@ private fun CommentErrorNetworkPreview() {
 @Composable
 private fun CommentErrorServerPreview() {
     CommentListScreen(
-        homeState = CommentListState.Error(AppError.Server)
+        homeState = CommentListState.Error(DomainError.Server)
     ) {}
 }

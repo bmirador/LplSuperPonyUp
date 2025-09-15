@@ -1,8 +1,8 @@
 package com.redprisma.lplsuperponyup
 
+import com.example.data.CommentsRepository
+import com.example.data.util.DataResult
 import com.example.domain.Comment
-import com.redprisma.lplsuperponyup.data.repository.CommentsRepository
-import com.redprisma.lplsuperponyup.data.util.DataResult
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentListState
 import com.redprisma.lplsuperponyup.ui.screens.home.CommentsViewModel
 import junit.framework.TestCase.assertTrue

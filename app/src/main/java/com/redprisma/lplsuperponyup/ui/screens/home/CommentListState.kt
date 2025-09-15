@@ -1,7 +1,7 @@
 package com.redprisma.lplsuperponyup.ui.screens.home
 
 import com.example.domain.Comment
-import com.redprisma.lplsuperponyup.data.util.AppError
+import com.example.domain.DomainError
 
 /**
  * A sealed hierarchy describing the state of the comment list screen.
@@ -22,11 +22,15 @@ sealed interface CommentListState {
     /**
      * Success on requesting list of comments.
      */
-    data class Success(val comments: List<Comment>, val fromCache: Boolean, val error: AppError?) :
+    data class Success(
+        val comments: List<Comment>,
+        val fromCache: Boolean,
+        val error: DomainError?
+    ) :
         CommentListState
 
     /**
      * There was an error while retrieving comments.
      */
-    data class Error(val appError: AppError) : CommentListState
+    data class Error(val error: DomainError) : CommentListState
 }

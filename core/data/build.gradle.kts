@@ -52,9 +52,9 @@ android {
 
 dependencies {
 
-    implementation(project(":core:common"))
-    implementation(project(":core:network"))
-    implementation(project(":core:db"))
+    api(project(":core:common"))
+    api(project(":core:network"))
+    api(project(":core:db"))
     implementation(project(":domain"))
 
     implementation(libs.hilt.android)
